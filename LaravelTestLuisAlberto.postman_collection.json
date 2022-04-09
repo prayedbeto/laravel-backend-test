@@ -276,7 +276,7 @@
 	"variable": [
 		{
 			"key": "URL_BASE",
-			"value": "http://laravel-backend-test.test/api",
+			"value": "http://localhost:8080/api",
 			"type": "string"
 		}
 	]
