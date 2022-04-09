@@ -21,6 +21,12 @@ class PostController extends Controller
 
     public function store(Request $request)
     {
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'tags' => 'array|nullable',
+            'tags.*' => 'string',
+        ]);
+
         try {
             DB::beginTransaction();
 
@@ -28,17 +34,20 @@ class PostController extends Controller
                 'title' => $request->title
             ]);
 
-            foreach($request->tags as $tag) {
+            if($request->tags) {
 
-                $slug = Str::slug($tag, '-');
+                foreach($request->tags as $tag) {
 
-                $tag = Tag::firstOrCreate([
-                    'slug' => $slug
-                ], [
-                    'tag' => $tag
-                ]);
+                    $slug = Str::slug($tag, '-');
 
-                $post->tags()->save($tag);
+                    $tag = Tag::firstOrCreate([
+                        'slug' => $slug
+                    ], [
+                        'tag' => $tag
+                    ]);
+
+                    $post->tags()->save($tag);
+                }
             }
 
             DB::commit();

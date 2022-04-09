@@ -21,6 +21,12 @@ class VideoController extends Controller
 
     public function store(Request $request)
     {
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'tags' => 'array|nullable',
+            'tags.*' => 'string|max:255',
+        ]);
+
         try {
             DB::beginTransaction();
 
@@ -28,16 +34,19 @@ class VideoController extends Controller
                 'title' => $request->title
             ]);
 
-            foreach($request->tags as $tag) {
-                $slug = Str::slug($tag, '-');
+            if($request->tags) {
 
-                $tag = Tag::firstOrCreate([
-                    'slug' => $slug
-                ], [
-                    'tag' => $tag
-                ]);
+                foreach($request->tags as $tag) {
+                    $slug = Str::slug($tag, '-');
 
-                $video->tags()->save($tag);
+                    $tag = Tag::firstOrCreate([
+                        'slug' => $slug
+                    ], [
+                        'tag' => $tag
+                    ]);
+
+                    $video->tags()->save($tag);
+                }
             }
 
             DB::commit();

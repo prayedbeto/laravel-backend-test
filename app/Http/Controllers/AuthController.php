@@ -12,6 +12,12 @@ class AuthController extends Controller
 {
     public function store(Request $request)
     {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email',
+            'password' => 'required|string',
+        ]);
+
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
@@ -25,7 +31,7 @@ class AuthController extends Controller
     {
         $request->validate([
             'email' => 'required|email',
-            'password' => 'required',
+            'password' => 'required|string',
             'device_name' => 'required',
         ]);
 
