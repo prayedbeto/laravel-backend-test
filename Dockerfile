@@ -29,4 +29,6 @@ RUN cp .env.example .env
 
 RUN php artisan k:g
 
+RUN touch /var/www/html/database/laravel.sqlite
+
 RUN php artisan migrate
