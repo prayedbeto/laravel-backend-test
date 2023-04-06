@@ -17,4 +17,10 @@ El proyecto esta desarrollado en Laravel y para su funcionamiento puede correr c
 - En la raiz del proyecto se encuentra el digrama E-R.
 - Si prefiere puede importar la coleccion de POSTMAN ubicado en la raiz del proyecto.
 
+## Produccion
+
+- Comando para docker composer en produccion
+  - COMPOSE_DOCKER_CLI_BUILD=1 DOCKER_BUILDKIT=1 docker-compose build
+
+
 Autor: Luis Alberto Vasquez Perez
